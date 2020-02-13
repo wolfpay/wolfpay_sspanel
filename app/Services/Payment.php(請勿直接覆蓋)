@@ -11,7 +11,7 @@ namespace App\Services;
 use App\Services\Gateway\{
     AopF2F, Codepay, DoiAMPay, PaymentWall, ChenPay, SPay, TrimePay, PAYJS, wolfpay
 };
-//需新增wolfpay此行
+//需新增wolfpay此行 
 
 class Payment
 {
@@ -23,7 +23,7 @@ class Payment
                 return new Codepay();
             case("wolfpay"):
                 return new wolfpay();
-                //需新增wolfpay此行
+                //需新增wolfpay此行 
             case ('doiampay'):
                 return new DoiAMPay();
             case ('paymentwall'):
