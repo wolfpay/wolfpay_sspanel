@@ -142,7 +142,7 @@ class wolfpay extends AbstractPayment {
             header("Location: /user/code");
         } else {
             //实例化支付类
-            $pay = new Pays($settings['hid'], $settings['key']);
+            $pay = new Pays($settings['hid'], $settings['key'], $settings['url']);
             //接收异步通知数据
             $data = $_GET;
             //商户订单号
