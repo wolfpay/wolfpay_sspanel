@@ -178,9 +178,12 @@ class wolfpay extends AbstractPayment {
 											
 													<li>
 														<a class="waves-attach waves-effect type active" data-toggle="tab" data-pay="alipay">野狼支付(支付宝)</a>
-														<a class="waves-attach waves-effect type active" data-toggle="tab" data-pay="wxpay">野狼支付(微信)</a>
-														<a class="waves-attach waves-effect type active" data-toggle="tab" data-pay="qqpay">野狼支付(QQ)</a>
-														<a class="waves-attach waves-effect type active" data-toggle="tab" data-pay="paypal">野狼支付(Paypal)</a>
+														</li><li>
+														<a class="waves-attach waves-effect type " data-toggle="tab" data-pay="wxpay">野狼支付(微信)</a>
+															</li><li>
+														<a class="waves-attach waves-effect type " data-toggle="tab" data-pay="qqpay">野狼支付(QQ)</a>
+															</li><li>
+														<a class="waves-attach waves-effect type " data-toggle="tab" data-pay="paypal">野狼支付(Paypal)</a>
 													</li>
 											
 											
@@ -200,6 +203,9 @@ class wolfpay extends AbstractPayment {
 									</div>
                         <script>
 		var type = "wxpay";
+		var type = "alipay";
+		var type = "qqpay";
+		var type = "paypal";
 	var pid = 0;
 	$(".type").click(function(){
 		type = $(this).data("pay");
@@ -227,10 +233,9 @@ class wolfpay extends AbstractPayment {
 				}
 				if(data.errcode==0){
 					pid = data.pid;
-					if(type=="wxpay"){
 						$("#result").modal();
 						$("#msg").html("<img src="+data.code+"/>");
-					}
+					
 				}
 			}
 		});
@@ -246,4 +251,3 @@ class wolfpay extends AbstractPayment {
         
     }
 }
-
