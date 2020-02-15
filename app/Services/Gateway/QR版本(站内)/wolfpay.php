@@ -119,7 +119,7 @@ class wolfpay extends AbstractPayment {
         $pl->tradeno = self::generateGuid();
         $pl->save();
         $return = 'https://' . $_SERVER['HTTP_HOST'] . '/wolfpay_back/' . $type;
-        $pay = new Pays($settings['hid'], $settings['key'], $settings['url'])
+        $pay = new Pays($settings['hid'], $settings['key'], $settings['url']);
         //订单号
         $out_trade_no = $pl->tradeno;
         //异步通知地址
