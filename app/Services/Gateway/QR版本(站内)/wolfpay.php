@@ -119,9 +119,7 @@ class wolfpay extends AbstractPayment {
         $pl->tradeno = self::generateGuid();
         $pl->save();
         $return = 'https://' . $_SERVER['HTTP_HOST'] . '/wolfpay_back/' . $type;
-        $pay = new Pays($settings['hid'], $settings['key'], $settings['url']);
-        //支付方式
-        $type = 'all';
+        $pay = new Pays($settings['hid'], $settings['key'], $settings['url'])
         //订单号
         $out_trade_no = $pl->tradeno;
         //异步通知地址
@@ -179,7 +177,10 @@ class wolfpay extends AbstractPayment {
 											<ul class="nav nav-list">
 											
 													<li>
-														<a class="waves-attach waves-effect type active" data-toggle="tab" data-pay="wxpay">野狼支付</a>
+														<a class="waves-attach waves-effect type active" data-toggle="tab" data-pay="alipay">野狼支付(支付宝)</a>
+														<a class="waves-attach waves-effect type active" data-toggle="tab" data-pay="wxpay">野狼支付(微信)</a>
+														<a class="waves-attach waves-effect type active" data-toggle="tab" data-pay="qqpay">野狼支付(QQ)</a>
+														<a class="waves-attach waves-effect type active" data-toggle="tab" data-pay="paypal">野狼支付(Paypal)</a>
 													</li>
 											
 											
