@@ -64,7 +64,7 @@ class Pays {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION,1);
         $output = curl_exec($ch);
         curl_close($ch);
-        return $output;
+        return json_encode(array('code'=> 0, 'url' => $output, 'pid' => $pl->tradeno));
         }else{
         return 'https://' . $this->url . '/submit?skey=' . $keyss . '&sign=' . $sign . '&sign_type=MD5';}
     }
@@ -118,14 +118,24 @@ class wolfpay extends AbstractPayment {
         $pl->total = $price;
         $pl->tradeno = self::generateGuid();
         $pl->save();
-        $return = 'https://' . $_SERVER['HTTP_HOST'] . '/wolfpay_back/' . $type;
+        if ($type == "alipay") {
+            $payment_x = "/alipay";
+        }elseif($type == "wxpay"){
+            $payment_x = "/wxpay";
+        }elseif($type == "qqpay"){
+            $payment_x = "/qqpay";
+        }elseif($type == "paypal"){
+            $payment_x = "/paypal";
+        }
+	$return_notify=$url_notify.'/wolfpay_back'.$payment_x;
+        $return_html=$url_notify.'/wolfpay_back/'.$type;
         $pay = new Pays($settings['hid'], $settings['key'], $settings['url']);
         //订单号
         $out_trade_no = $pl->tradeno;
         //异步通知地址
-        $notify_url = $return;
+        $notify_url = $return_notify;
         //回调通知地址
-        $return_url = $return;
+        $return_url = $return_html;
         //商品名称
         $name = 'SS商品-' . $_SERVER['HTTP_HOST'];
         //支付金额（保留小数点后两位）
@@ -136,11 +146,6 @@ class wolfpay extends AbstractPayment {
         //发起支付
         $url = $pay->submit($type, $out_trade_no, $notify_url, $return_url, $name, $money, $sitename,$qr);
         $result = $url;
-        $result = json_encode(array(
-            'code' => $result,
-            'errcode' => 0,
-            'pid' => $pl->id
-        ));
         return $result;
     }
     public function notify($request, $response, $args) {
@@ -157,10 +162,15 @@ class wolfpay extends AbstractPayment {
             //商户订单号
             $out_trade_no = $data['out_trade_no'];
             //验证签名
+		if ($data['type'] == "alipay") {
+              $type = "支付宝";
+          }elseif($data['type'] == "wxpay") {
+              $type = "微信支付";
+          }
             if ($pay->verify($data)) {
                 //验证支付状态
                 if ($data['trade_status'] == 'TRADE_SUCCESS') {
-                    $this->postPayment($data['out_trade_no'], "在线支付");
+                    $this->postPayment($data['out_trade_no'], $type);
                     echo "success";
                     header("Location: /user/code");
                 }
@@ -247,7 +257,10 @@ class wolfpay extends AbstractPayment {
     public function getReturnHTML($request, $response, $args) {
     }
     public function getStatus($request, $response, $args) {
-        // TODO: Implement getStatus() method.
+        $p = Paylist::where("tradeno", $_POST['pid'])->first();
+        $return['ret'] = 1;
+        $return['result'] = $p->status;
+        return json_encode($return);
         
     }
 }
