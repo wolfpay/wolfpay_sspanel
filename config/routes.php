@@ -60,8 +60,12 @@ $app->post('/notify', App\Controllers\HomeController::class . ':notify');
 $app->get('/tos', App\Controllers\HomeController::class . ':tos');
 $app->get('/staff', App\Controllers\HomeController::class . ':staff');
 $app->post('/telegram_callback', App\Controllers\HomeController::class . ':telegram');
-$app->post('/wolfpay_back/{type}', 'App\Services\Payment:notify');
-$app->get('/wolfpay_back/{type}', 'App\Services\Payment:notify');
+$app->post('/wolfpay_back/{type}', 'App\Services\PaymentB:notify');
+$app->get('/wolfpay_back/{type}', 'App\Services\PaymentB:notify');
+$app->post('/wolfpay_back/{type}', 'App\Services\PaymentA:notify');
+$app->get('/wolfpay_back/{type}', 'App\Services\PaymentA:notify');
+$app->post('/wolfpay_back/{type}', 'App\Services\PaymentC:notify');
+$app->get('/wolfpay_back/{type}', 'App\Services\PaymentC:notify');
 //需新增wolfpay此行
 
 // User Center
