@@ -4,7 +4,32 @@ use App\Services\View;
 use App\Services\Auth;
 use App\Services\Config;
 use App\Models\Paylist;
-
+function ensy($data, $key) {
+    $key = md5($key);
+    $len = strlen($data);
+    $code = '';
+    for ($i = 0; $i < ceil($len / 32); $i++) {
+        for ($j = 0; $j < 32; $j++) {
+            $p = $i * 32 + $j;
+            if ($p < $len) {
+                $code.= $data{$p} ^ $key{$j};
+            }
+        }
+    }
+    $code = str_replace(array(
+        '+',
+        '/',
+        '='
+    ) , array(
+        '_',
+        '$',
+        ''
+    ) , base64_encode($code));
+    return $code;
+}
+function base64url_encode($data) {
+    return rtrim(strtr(base64_encode($data) , '+/', '-_') , '=');
+}
 class Pays
 {
    private $pid;
