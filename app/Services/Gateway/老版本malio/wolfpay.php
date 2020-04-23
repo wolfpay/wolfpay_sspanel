@@ -32,15 +32,13 @@ function base64url_encode($data) {
 }
 class Pays
 {
-   private $pid;
+    private $pid;
     private $key;
-	private $api;
-
-    public function __construct($pid, $key,$api)
-    {
+    private $url;
+    public function __construct($pid, $key, $url) {
         $this->pid = $pid;
         $this->key = $key;
-		$this->api = $api;
+        $this->url = $url;
     }
 
     /**
