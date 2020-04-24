@@ -100,7 +100,7 @@ class Pays
         return $sign;
     }
 }
-class flyfoxpay extends AbstractPayment
+class wolfpay extends AbstractPayment
 {
 
     public function purchase($request, $response, $args)
@@ -111,7 +111,7 @@ class flyfoxpay extends AbstractPayment
             return json_encode(['errcode'=>-1,'errmsg'=>"非法的金额."]);
         }
         $user = Auth::getUser();
-        $settings = Config::get("flyfoxpay")['config'];
+        $settings = Config::get("wolfpay")['config'];
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
@@ -152,11 +152,11 @@ $url = $pay->submit($type, $out_trade_no, $notify_url, $return_url, $name, $mone
     public function notify($request, $response, $args)
     {
 		$type = $args['type'];
-		$settings = Config::get("flyfoxpay")['config'];
+		$settings = Config::get("wolfpay")['config'];
         $security['orderid'] = $_REQUEST['out_trade_no'];
       if($security['orderid']=='' OR $security['orderid']==null){header("Location: /user/code");}else{
 		  //实例化支付类
-$pay = new Pays($settings['hid'], $settings['key']);
+$pay = new Pays($settings['hid'], $settings['key'], $settings['url']);
 
 //接收异步通知数据
 $data = $_GET;
