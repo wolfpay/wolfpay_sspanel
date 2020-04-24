@@ -117,8 +117,8 @@ class flyfoxpay extends AbstractPayment
         $pl->total = $price;
         $pl->tradeno = self::generateGuid();
         $pl->save();
-		$return='https://'.$_SERVER['HTTP_HOST'].'/flyfoxpay_back/'.$type;
-		$pay = new Pays($settings['hid'], $settings['key']);
+		$return='https://'.$_SERVER['HTTP_HOST'].'/wolfpay_back/'.$type;
+		$pay = new Pays($settings['hid'], $settings['key'],$settings['url']);
 
 //支付方式
 $type = 'all';
